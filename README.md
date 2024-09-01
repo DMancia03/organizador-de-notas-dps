@@ -1,10 +1,10 @@
-### Organizador de notas
+# Organizador de notas
 Es común que a lo largo del día una persona pueda escuchar o ver diferentes ideas y elementos que necesite recordar más tarde o en días a futuro; por ejemplo, la fecha de un parcial importante, acuerdos tomados en una reunión laboral o el listado de compras de la próxima semana. Es por eso, que una aplicación con la capacidad de crear y almacenar notas con estas ideas, así como poder clasificarlas en categorías (ya sea estudio, trabajo, compras, etc.), se vuelve una importante herramienta en el diario vivir para evitar que queden en un pensamiento que se pueda olvidar.
 
-# Grupo teórico
+### Grupo teórico
 Diseño y Programación de Software Multiplataforma DPS104 G02T
 
-# Integrantes 
+### Integrantes 
 - Yensy Alejandra Cruz Barahona | CB121442
 - Diego Fernando Mancía Hernández | MH212532
 - Johan Anthony Menjivar Girón | MG182330
@@ -30,4 +30,4 @@ Link de los diseños MockUps
 - Alinson Javier Meléndez Torres | MT191530
 
 ## Licencia del proyecto
-MIT License [(Ver)](docs/LICENSE)
+MIT License [(Ver)](LICENSE)
