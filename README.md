@@ -23,11 +23,11 @@ Link de los diseños MockUps
 - Arquitectura de software: [Enlace de Miro](https://miro.com/app/board/uXjVKkZXFnY=/)
 
 ## Autores del proyecto
-- Yensy Alejandra Cruz Barahona | CB121442
-- Diego Fernando Mancía Hernández | MH212532
-- Johan Anthony Menjivar Girón | MG182330
-- Javier Ernesto Pérez Joaquín | PJ211152
-- Alinson Javier Meléndez Torres | MT191530
+- Yensy Alejandra Cruz Barahona @YensyC
+- Diego Fernando Mancía Hernández @DMancia03
+- Johan Anthony Menjivar Girón @JohanMenjivar
+- Javier Ernesto Pérez Joaquín @PJ211152
+- Alinson Javier Meléndez Torres @Javier082388
 
 ## Licencia del proyecto
 MIT License [(Ver)](LICENSE)
