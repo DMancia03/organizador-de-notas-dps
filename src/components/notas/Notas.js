@@ -1,19 +1,22 @@
 import react, { useState, useEffect } from "react";
-import { View, Text, Alert, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, Alert, ScrollView, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import axios from "axios";
 import Nota from "./Nota";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const backgroundCrear = '#7aac6c';
 
-const Notas = () => {
+const Notas = ({ navigation }) => {
     const idUsuario = 1;
     const [notas, setNotas] = useState([]);
+
+    const crearNota = () => {
+        navigation.navigate('GuardarNota');
+    }
 
     useEffect(() => {
         const getNotas = async () => {
             axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Notas/usuario/' + idUsuario).then((response) => {
-                Alert.alert('Notas', JSON.stringify(response.data));
                 setNotas(response.data);
             });
         };
@@ -24,13 +27,13 @@ const Notas = () => {
 
     return (
         <ScrollView style={styles.main}>
-            <View style={styles.header}>
-                <Text style={styles.headerText}>NOTAS</Text>
-            </View>
             <View style={styles.opcionesArea}>
-                <TouchableOpacity style={styles.opcionCrear}>
+                <TouchableOpacity style={styles.opcionCrear} onPress={() => crearNota()}>
                     <Text><Icon name='plus-circle' size={20} /> Crear nota</Text>
                 </TouchableOpacity>
+            </View>
+            <View style={styles.opcionesArea}>
+                <TextInput value='a' />
             </View>
             { notas.map((nota) => (<Nota nota={nota} key={nota.idNota} />)) }
         </ScrollView>
@@ -55,7 +58,10 @@ const styles = StyleSheet.create({
     opcionesArea:{
         display: 'flex',
         flexDirection: 'row',
-        gap:20
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap:20,
+        padding: 20
     },
     opcionCrear:{
         backgroundColor: backgroundCrear,
