@@ -1,13 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import react from 'react';
-import VerNotas from './src/screens/VerNotas';
+import VerEtiquetas from './src/screens/VerEtiquetas';
 import { NavigationContainer } from '@react-navigation/native';
 
 export default function App() {
   return (
     <NavigationContainer>
-      <VerNotas/>
+      <VerEtiquetas/>
     </NavigationContainer>
   );
 }

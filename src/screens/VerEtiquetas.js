@@ -1,9 +1,10 @@
 import react, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import Notas from "../components/notas/Notas";
-import GuardarNota from "../components/notas/GuardarNota";
+import Notas from "../components/Etiquetas/Etiquetas";
+import GuardarEtiqueta from "../components/Etiquetas/GuardarEtiqueta";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import Etiquetas from "../components/Etiquetas/Etiquetas";
 
 const Stack = createStackNavigator();
 
@@ -12,17 +13,17 @@ const VerNotas = () => {
         <>
             <Stack.Navigator>
                 <Stack.Screen 
-                    name="Notas" 
-                    component={Notas}
+                    name="Etiquetas" 
+                    component={Etiquetas}
                     options={{
-                        title: 'Notas'
+                        title: 'Etiquetas'
                     }}
                 />
                 <Stack.Screen 
-                    name="GuardarNota" 
-                    component={GuardarNota}
+                    name="GuardarEtiqueta" 
+                    component={GuardarEtiqueta}
                     options={{
-                        title: 'Guardar nota'
+                        title: 'Guardar etiqueta'
                     }}
                 />
             </Stack.Navigator>
