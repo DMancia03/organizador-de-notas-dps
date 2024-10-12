@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, Alert, ScrollView, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
-import Nota from "./Etiqueta";
+import Etiqueta from "./Etiqueta";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const backgroundCrear = '#7aac6c';
@@ -38,6 +38,11 @@ const Etiquetas = ({ navigation }) => {
         etiqueta.nombre.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    // Función para editar una etiqueta
+    const editarEtiqueta = (etiqueta) => {
+        navigation.navigate('GuardarEtiqueta', { etiqueta });
+    };
+
     return (
         <ScrollView style={styles.main}>
             <View style={styles.searchArea}>
@@ -54,11 +59,18 @@ const Etiquetas = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
             { filteredEtiquetas.map((etiqueta) => (
-                <Nota etiqueta={etiqueta} key={etiqueta.idEtiqueta} />
+                <Etiqueta 
+                    etiqueta={etiqueta} 
+                    key={etiqueta.idEtiqueta}         
+                    onDelete={(id) => {
+                        setEtiquetas(prev => prev.filter(et => et.idEtiqueta !== id)); // Actualiza el estado después de la eliminación
+                    }}
+                    onEdit={editarEtiqueta} // Pasa la función onEdit
+                />
             )) }
         </ScrollView>
     );
-}
+};
 
 export default Etiquetas;
 

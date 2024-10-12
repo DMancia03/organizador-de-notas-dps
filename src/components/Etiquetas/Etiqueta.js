@@ -8,13 +8,24 @@ const textEtiqueta = 'white';
 const textEditar = '#3F6ED9';
 const textEliminar = '#ffa590';
 
-const Etiqueta = ({ etiqueta, onDelete }) => {
-    const editarEtiqueta = (id) => {
-        Alert.alert('Editar nota', 'Editar nota ' + id);
-    };
+const Etiqueta = ({ etiqueta, onDelete, onEdit }) => {
+    const eliminarEtiqueta = async (id) => {
+        // Verifica si hay notas o recordatorios asociados a la etiqueta
+        try {
+            const notasResponse = await axios.get(`https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Notas/usuario/1/id_etiqueta/${id}`);
+            /*const recordatoriosResponse = await axios.get(`https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Recordatorios?idEtiqueta=${id}`);*/
 
-    const eliminarEtiqueta = (id) => {
-        console.log(`Eliminando etiqueta con ID: ${id}`); // Verifica que el ID sea correcto
+            if (notasResponse.data.length > 0 /*|| recordatoriosResponse.data.length > 0*/) {
+                Alert.alert("Error", "No se puede eliminar la etiqueta porque tiene notas o recordatorios asociados.");
+                return; // Detiene la función si hay notas o recordatorios
+            }
+        } catch (error) {
+            console.error("Error al verificar notas o recordatorios: ", error);
+            Alert.alert("Error", "No se pudo verificar las notas o recordatorios.");
+            return; // Detiene la función si hay un error en la verificación
+        }
+
+        // Si no hay notas o recordatorios, procede a eliminar la etiqueta
         Alert.alert(
             "Eliminar Etiqueta",
             "¿Estás seguro de que deseas eliminar esta etiqueta?",
@@ -42,7 +53,7 @@ const Etiqueta = ({ etiqueta, onDelete }) => {
         <View style={styles.nota}>
             <Text style={styles.notaTitle}><Icon name='label' size={20} /> {etiqueta.nombre}</Text>
             <View style={styles.opcionesArea}>
-                <TouchableOpacity style={styles.opcionEditar} onPress={() => editarEtiqueta(etiqueta.idEtiqueta)}>
+                <TouchableOpacity style={styles.opcionEditar} onPress={() => onEdit(etiqueta)}>
                     <Text><Icon name='pencil-circle' size={15} /> Editar</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.opcionEliminar} onPress={() => eliminarEtiqueta(etiqueta.idEtiqueta)}>

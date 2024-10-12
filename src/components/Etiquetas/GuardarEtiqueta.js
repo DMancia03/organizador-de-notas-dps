@@ -1,10 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import axios from "axios";
 
-const GuardarEtiqueta = ({ navigation }) => {
+const GuardarEtiqueta = ({ navigation, route }) => {
+    const { etiqueta } = route.params || {}; // Obtén la etiqueta a editar
+    const isEdit = !!etiqueta; // Verifica si estamos en modo de edición
+
     const [nombreEtiqueta, setNombreEtiqueta] = useState("");
     const [isButtonDisabled, setIsButtonDisabled] = useState(false); // Estado para controlar el botón
+
+    // Carga el nombre de la etiqueta si está en modo de edición
+    useEffect(() => {
+        if (isEdit) {
+            setNombreEtiqueta(etiqueta.nombre);
+        }
+    }, [isEdit, etiqueta]);
 
     const guardarEtiqueta = () => {
         if (nombreEtiqueta.trim() === "") {
@@ -14,12 +24,18 @@ const GuardarEtiqueta = ({ navigation }) => {
 
         setIsButtonDisabled(true); // Deshabilita el botón
 
-        axios.post('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Etiquetas/', {
+        const url = isEdit 
+            ? `https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Etiquetas/${etiqueta.idEtiqueta}`
+            : 'https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Etiquetas/';
+
+        const method = isEdit ? 'put' : 'post';
+
+        axios[method](url, {
             nombre: nombreEtiqueta,
             idUsuario: 1 // Suponiendo que el id del usuario es 1
         })
         .then(() => {
-            Alert.alert("Éxito", "Etiqueta guardada correctamente.");
+            Alert.alert("Éxito", isEdit ? "Etiqueta actualizada correctamente." : "Etiqueta guardada correctamente.");
             navigation.goBack();
         })
         .catch((error) => {
@@ -27,15 +43,13 @@ const GuardarEtiqueta = ({ navigation }) => {
             console.error(error);
         })
         .finally(() => {
-            setTimeout(() => {
-                setIsButtonDisabled(false); // Habilita el botón después de 3 segundos
-            }, 3000);
+            setIsButtonDisabled(false); // Habilita el botón después de la operación
         });
     };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Guardar Etiqueta</Text>
+            <Text style={styles.title}>{isEdit ? "Editar Etiqueta" : "Guardar Etiqueta"}</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Nombre de la Etiqueta"
@@ -45,9 +59,9 @@ const GuardarEtiqueta = ({ navigation }) => {
             <TouchableOpacity 
                 style={styles.botonGuardar} 
                 onPress={guardarEtiqueta} 
-                disabled={isButtonDisabled} // Deshabilita el botón si isButtonDisabled es true
+                disabled={isButtonDisabled}
             >
-                <Text style={styles.botonTexto}>Guardar</Text>
+                <Text style={styles.botonTexto}>{isEdit ? "Actualizar" : "Guardar"}</Text>
             </TouchableOpacity>
         </View>
     );
