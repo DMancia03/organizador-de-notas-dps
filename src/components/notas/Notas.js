@@ -4,6 +4,7 @@ import axios from "axios";
 import Nota from "./Nota";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+//Colores
 const backgroundCrear = '#7aac6c';
 
 const Notas = ({ navigation }) => {
