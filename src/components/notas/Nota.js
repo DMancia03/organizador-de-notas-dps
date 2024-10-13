@@ -7,15 +7,7 @@ const textEtiqueta = 'white';
 const textEditar = '#3F6ED9';
 const textEliminar = '#ffa590';
 
-const Nota = ({nota}) => {
-    const editarNota = (id) => {
-        Alert.alert('Editar nota', 'Editar nota ' + id);
-    };
-
-    const eliminarNota = (id) => {
-        Alert.alert('Eliminar nota', 'Eliminar nota ' + id);
-    };
-    
+const Nota = ({ nota, editarNota, eliminarNota }) => {
     return (
         <View style={styles.nota}>
             <Text style={styles.notaTitle}><Icon name='note' size={20} /> {nota.nombre}</Text>

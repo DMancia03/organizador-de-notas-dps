@@ -27,6 +27,14 @@ const VerNotas = () => {
                         title: 'Crear nota'
                     }}
                 />
+                <Stack.Screen 
+                    name="EditarNota"
+                    initialParams={{ "accion" : 'editar', 'id': 0 }} 
+                    component={GuardarNota}
+                    options={{
+                        title: 'Editar nota'
+                    }}
+                />
             </Stack.Navigator>
         </>
     );

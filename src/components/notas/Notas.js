@@ -15,6 +15,14 @@ const Notas = ({ navigation, route }) => {
         navigation.navigate('CrearNota', { "accion" : 'crear' });
     }
 
+    const editarNota = (id) => {
+        navigation.navigate('EditarNota', { "accion" : 'editar', 'id': id });
+    }
+
+    const eliminarNota = (id) => {
+        Alert.alert('Eliminar nota', 'Eliminar nota ' + id);
+    };
+
     useEffect(() => {
         const getNotas = async () => {
             axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Notas/usuario/' + idUsuario)
@@ -37,7 +45,7 @@ const Notas = ({ navigation, route }) => {
             <View style={styles.opcionesArea}>
                 <TextInput value='a' />
             </View>
-            { notas.map((nota) => (<Nota nota={nota} key={nota.idNota} />)) }
+            { notas.map((nota) => (<Nota nota={nota} editarNota={editarNota} eliminarNota={eliminarNota} key={nota.idNota} />)) }
         </ScrollView>
     );
 }
