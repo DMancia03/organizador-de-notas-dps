@@ -13,7 +13,7 @@ import { Picker } from "@react-native-picker/picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-const CrearRecordatorio = () => {
+const CrearRecordatorio = ({navigation}) => {
   const [show, setShow] = useState(false);
   const [cargando, setCargando] = useState(true)
   const [date, setDate] = useState("");
@@ -22,6 +22,7 @@ const CrearRecordatorio = () => {
   const [idEtiqueta, setIdEtiqueta] = useState(1);
   const [idUsuario, setIdUsuario] = useState(1);
   const [etiquetas, setEtiquetas] = useState([]);
+  const [selectedValue, setSelectedValue] = useState('');
 
   useEffect(() => {
     const getEtiquetas = async () => {
@@ -80,6 +81,7 @@ const CrearRecordatorio = () => {
           }});
 
           alert('agregado Con exito')
+          navigation.goBack();
       }catch(error){
         console.log('Error', error)
       }
@@ -108,7 +110,8 @@ const CrearRecordatorio = () => {
       <TextInput style={styles.input} onChangeText={setContenido}></TextInput>
       <Text style={styles.label}>Etiqueta:</Text>
       {cargando === false ? <Picker
-        onValueChange={(itemValue, itemIndex) => setIdEtiqueta(itemValue)}
+      selectedValue={selectedValue}
+        onValueChange={(itemValue, itemIndex) => {setIdEtiqueta(itemValue); setSelectedValue(itemValue)}}
       >
         {etiquetas.map((item) => (
           <Picker.Item
@@ -133,7 +136,7 @@ const CrearRecordatorio = () => {
         {show && (
           <DateTimePicker
             testID="dateTimePicker"
-            value={new Date(1598051730000)}
+            value={new Date(Date.now())}
             is24Hour={true}
             mode={"date"}
             onChange={onChange}

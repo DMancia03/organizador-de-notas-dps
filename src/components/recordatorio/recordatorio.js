@@ -25,6 +25,22 @@ const Recordatorio = ({navigation}) => {
         navigation.navigate('FiltrarRecordatorio');
     }
 
+    const verRecordatorio = (data) => {
+        navigation.navigate('ViewRecordatorio', {data});
+    }
+
+    const eliminarRecordatorio = async (id) => {
+        console.log(id)
+        try{
+            const response = await axios.delete(`https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Recordatorios/${id}`);
+            console.log('Respuesta del servidor:', response.data);
+            getRecordatorio()
+            alert('Eliminado')
+        }catch(error){
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
 
         getRecordatorio();
@@ -41,7 +57,7 @@ const Recordatorio = ({navigation}) => {
                 <Icon name='pencil-outline' color={'white'} size={20} onPress={() => filtrarRecordatorio()}> Filtrar Recordatorio</Icon>
             </TouchableOpacity>
             <View>
-            { recordatorios.map((rec) => (<RenderRecordatorio dataRec={rec} key={rec.idNota} />)) }
+            { recordatorios.map((rec) => (<RenderRecordatorio dataRec={rec} key={rec.idNota} onPress={verRecordatorio} onDelete={eliminarRecordatorio}/>)) }
             </View>
         </ScrollView>
     )

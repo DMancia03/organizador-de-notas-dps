@@ -5,13 +5,18 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from "axios";
 import RenderRecordatorio from "./renderRecordatorio";
 
-const FiltrarRecordatorio = () => {
+const FiltrarRecordatorio = ({navigation}) => {
 
     const [recordatorios, setRecordatorios] = useState([]);
     const [mode, setMode] = useState('nombre');
     const [inputText, setInputText] = useState('');
     const [busqueda, setBusqueda] = useState(false);
     const [consultando, setConsultando] = useState(false)
+
+    const verRecordatorio = (data) => {
+        navigation.navigate('ViewRecordatorio', {data});
+    }
+
 
     async function filtrar(){
         if(mode === 'nombre'){
@@ -40,8 +45,20 @@ const FiltrarRecordatorio = () => {
         }
     }
 
+    const eliminarRecordatorio = async (id) => {
+        console.log(id)
+        try{
+            const response = await axios.delete(`https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Recordatorios/${id}`);
+            console.log('Respuesta del servidor:', response.data);
+            filtrar()
+            alert('Eliminado')
+        }catch(error){
+            console.log(error)
+        }
+    }
+
     return(
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <Text>Filtrar por:</Text>
             <Picker
             selectedValue={mode}
@@ -61,8 +78,8 @@ const FiltrarRecordatorio = () => {
             </TouchableOpacity>
             { busqueda === false ? 
             <Text style={styles.adviceText}>Ingrese una busqueda y se mostrara aqui</Text> 
-            : ( consultando === true ? <Text style={styles.adviceText}>Cargando...</Text> : recordatorios.length === 0 ? <Text style={styles.adviceText}>Parece que aqui no hay nada, intenta de nuevo</Text> : recordatorios.map((rec) => (<RenderRecordatorio dataRec={rec} key={rec.idNota} />))) }
-        </View>
+            : ( consultando === true ? <Text style={styles.adviceText}>Cargando...</Text> : recordatorios.length === 0 ? <Text style={styles.adviceText}>Parece que aqui no hay nada, intenta de nuevo</Text> : recordatorios.map((rec) => (<RenderRecordatorio dataRec={rec} key={rec.idNota} onPress={verRecordatorio} onDelete={eliminarRecordatorio} />))) }
+        </ScrollView>
     )
 }
 

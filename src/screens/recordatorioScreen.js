@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import Recordatorio from "../components/recordatorio/recordatorio";
 import CrearRecordatorio from "../components/recordatorio/crearRecordatorio";
 import FiltrarRecordatorio from "../components/recordatorio/fitrarRecordatorio";
+import ViewRecordatorio from "../components/recordatorio/viewRecordatorio";
 import { createStackNavigator } from "@react-navigation/stack";
 
 const Stack = createStackNavigator();
@@ -30,6 +31,13 @@ const RecordatorioScreen = () => {
                     component={FiltrarRecordatorio}
                     options={{
                         title: 'Filtrar Recordatorio'
+                    }}
+                />
+                <Stack.Screen 
+                    name="ViewRecordatorio" 
+                    component={ViewRecordatorio}
+                    options={{
+                        title: 'Recordatorio'
                     }}
                 />
             </Stack.Navigator>

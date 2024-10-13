@@ -2,7 +2,7 @@ import react, { useState, useEffect } from "react";
 import { View, Text, Alert, ScrollView, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const RenderRecordatorio = ({dataRec}) => {
+const RenderRecordatorio = ({dataRec, onPress, onDelete}) => {
 
     const fechaRec = new Date(dataRec.fechaRecordatorio);
     const year = fechaRec.getFullYear();
@@ -21,8 +21,8 @@ const RenderRecordatorio = ({dataRec}) => {
             </View>
             <Text>{dataRec.contenido}</Text>
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.buttonEdit}><Text style={styles.buttonText}><Icon name='eye' size={20} /> Ver</Text></TouchableOpacity>
-                <TouchableOpacity style={styles.buttonDelete}><Text style={styles.buttonText}><Icon name='trash-can' size={20} /> Eliminar</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.buttonEdit} onPress={() => onPress(dataRec)}><Text style={styles.buttonText}><Icon name='eye' size={20} /> Ver</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.buttonDelete}><Text style={styles.buttonText}><Icon name='trash-can' size={20} onPress={() => onDelete(dataRec.idNota)} /> Eliminar</Text></TouchableOpacity>
             </View>
         </View>
     )
