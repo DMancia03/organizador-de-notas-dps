@@ -8,31 +8,60 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const backgroundCrear = '#7aac6c';
 
 const Notas = ({ navigation, route }) => {
+    //Variables
     const [idUsuario, setIdUsuario] = useState(1);
     const [notas, setNotas] = useState([]);
+    const [recargar, setRecargar] = useState(false);
+    const [filtro, setFiltro] = useState('');
 
+    //Redirigir a pantalla para crear nota
     const crearNota = () => {
         navigation.navigate('CrearNota', { "accion" : 'crear' });
     }
 
+    //Redirigir a pantalla para editar nota
     const editarNota = (id) => {
         navigation.navigate('EditarNota', { "accion" : 'editar', 'id': id });
     }
 
+    //Mover nota a papelera de reciclaje
     const eliminarNota = (id) => {
-        Alert.alert('Eliminar nota', 'Eliminar nota ' + id);
+        axios.put(
+            'https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Notas/papelera/' + id
+        )
+        .then((response) => {
+            Alert.alert('Nota eliminada', 'Se ha movido la nota a la papelera de reciclaje');
+            setRecargar(!recargar);
+        })
+        .catch((error) => {
+            Alert.alert('Error', error);
+        });
     };
 
+    //Acciones asincronicas
     useEffect(() => {
         const getNotas = async () => {
-            axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Notas/usuario/' + idUsuario)
-            .then((response) => {
-                setNotas(response.data);
-            });
+            if(filtro == ''){
+                axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Notas/usuario/' + idUsuario)
+                .then((response) => {
+                    setNotas(response.data);
+                })
+                .catch((error) => {
+                    Alert.alert('Error', error);
+                });
+            }else{
+                axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Notas/usuario/' + idUsuario + '/nombre_etiqueta/' + filtro)
+                .then((response) => {
+                    setNotas(response.data);
+                })
+                .catch((error) => {
+                    Alert.alert('Error', error);
+                });
+            }
         };
 
         getNotas();
-    }, [route.params.ultimaAccion]);
+    }, [route.params.ultimaAccion, recargar]);
     
     return (
         <ScrollView style={styles.main}>
@@ -42,7 +71,15 @@ const Notas = ({ navigation, route }) => {
                 </TouchableOpacity>
             </View>
             <View style={styles.opcionesArea}>
-                <TextInput value='a' />
+                <TextInput
+                    style={styles.textbox}
+                    placeholder="Filtrar notas por etiqueta..."
+                    value={filtro}
+                    onChangeText={(value) => setFiltro(value)}
+                />
+                <TouchableOpacity style={styles.opcionCrear} onPress={() => setRecargar(!recargar)}>
+                    <Text><Icon name='plus-circle' size={20} /> Buscar nota</Text>
+                </TouchableOpacity>
             </View>
             { notas.map((nota) => (<Nota nota={nota} editarNota={editarNota} eliminarNota={eliminarNota} key={nota.idNota} />)) }
         </ScrollView>
@@ -76,5 +113,10 @@ const styles = StyleSheet.create({
         backgroundColor: backgroundCrear,
         padding: 10,
         borderRadius: 10,
+    },
+    textbox: {
+        fontSize: 20,
+        borderBlockColor: '#56413E',
+        borderBottomWidth: 1,
     },
 });
