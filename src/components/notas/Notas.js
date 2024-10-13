@@ -6,6 +6,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 //Colores
 const backgroundCrear = '#7aac6c';
+const backgroundFiltrar = '#e5cbb4';
+const backgroundEliminar = '#ffa590';
 
 const Notas = ({ navigation, route }) => {
     //Variables
@@ -37,6 +39,12 @@ const Notas = ({ navigation, route }) => {
             Alert.alert('Error', error);
         });
     };
+
+    //Cancelar filtro
+    const cancelarFiltro = () => {
+        setFiltro('');
+        setRecargar(!recargar);
+    }
 
     //Acciones asincronicas
     useEffect(() => {
@@ -77,11 +85,21 @@ const Notas = ({ navigation, route }) => {
                     value={filtro}
                     onChangeText={(value) => setFiltro(value)}
                 />
-                <TouchableOpacity style={styles.opcionCrear} onPress={() => setRecargar(!recargar)}>
-                    <Text><Icon name='plus-circle' size={20} /> Buscar nota</Text>
+                <TouchableOpacity style={styles.opcionFiltrar} onPress={() => setRecargar(!recargar)}>
+                    <Text><Icon name='tag-search' size={20} /> Buscar nota</Text>
                 </TouchableOpacity>
             </View>
-            { notas.map((nota) => (<Nota nota={nota} editarNota={editarNota} eliminarNota={eliminarNota} key={nota.idNota} />)) }
+            {
+                notas.length == 0 ? 
+                    <View style={styles.areaVacia}>
+                        <Text>No hay notas con esa etiqueta...</Text>
+                        <TouchableOpacity style={styles.opcionCancelarFiltrar} onPress={() => cancelarFiltro()}>
+                            <Text><Icon name='tag-remove' size={20} /> Cancelar busqueda</Text>
+                        </TouchableOpacity>
+                    </View>
+                :
+                    notas.map((nota) => (<Nota nota={nota} editarNota={editarNota} eliminarNota={eliminarNota} key={nota.idNota} />))
+            }
         </ScrollView>
     );
 }
@@ -92,14 +110,13 @@ const styles = StyleSheet.create({
     main: {
         display: 'flex',
     },
-    header: {
-        display: 'flex'
-    },
-    headerText: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        color: '#56413E'
+    areaVacia: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20,
+        gap: 20
     },
     opcionesArea:{
         display: 'flex',
@@ -113,9 +130,28 @@ const styles = StyleSheet.create({
         backgroundColor: backgroundCrear,
         padding: 10,
         borderRadius: 10,
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    opcionFiltrar:{
+        backgroundColor: backgroundFiltrar,
+        padding: 10,
+        borderRadius: 10,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    opcionCancelarFiltrar:{
+        backgroundColor: backgroundEliminar,
+        padding: 10,
+        borderRadius: 10,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
     },
     textbox: {
-        fontSize: 20,
         borderBlockColor: '#56413E',
         borderBottomWidth: 1,
     },
