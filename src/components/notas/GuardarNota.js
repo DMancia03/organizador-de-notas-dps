@@ -5,6 +5,7 @@ import { Formik } from "formik";
 import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
 import { ScrollView } from "react-native-gesture-handler";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 //Validaciones con YUP
 const esquemaValidacion = Yup.object({
@@ -177,10 +178,10 @@ const GuardarNota = ({ navigation, route }) => {
                     </View>
                     <View style={styles.buttonGroup}>
                         <TouchableOpacity style={styles.buttomSave} onPress={handleSubmit}>
-                            <Text>Guardar nota</Text>
+                            <Text><Icon name='check-circle' size={15} /> Guardar nota</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.buttomCancel} onPress={cancelarGuardado}>
-                            <Text>Cancelar</Text>
+                            <Text><Icon name='close-circle' size={15} /> Cancelar</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
@@ -206,7 +207,7 @@ const styles = StyleSheet.create({
         color: '#56413E'
     },
     error: {
-        color: 'red',
+        color: '#ff2b16',
         fontSize: 15
     },
     inputGroup: {
@@ -217,7 +218,10 @@ const styles = StyleSheet.create({
     buttonGroup:{
         display: 'flex',
         flexDirection: 'row',
-        padding:20
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding:20,
+        gap: 20
     },
     label:{
         fontSize: 20
@@ -236,12 +240,12 @@ const styles = StyleSheet.create({
         height: 150
     },
     buttomSave:{
-        backgroundColor: 'green',
+        backgroundColor: '#77dd77',
         padding: 10,
         borderRadius: 10,
     },
     buttomCancel:{
-        backgroundColor: 'red',
+        backgroundColor: '#ff2b16',
         padding: 10,
         borderRadius: 10,
     },
