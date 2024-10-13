@@ -13,9 +13,9 @@ const Etiqueta = ({ etiqueta, onDelete, onEdit }) => {
         // Verifica si hay notas o recordatorios asociados a la etiqueta
         try {
             const notasResponse = await axios.get(`https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Notas/usuario/1/id_etiqueta/${id}`);
-            /*const recordatoriosResponse = await axios.get(`https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Recordatorios?idEtiqueta=${id}`);*/
+            const recordatoriosResponse = await axios.get(`https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Recordatorios/usuario/1/id_etiqueta/${id}`);
 
-            if (notasResponse.data.length > 0 /*|| recordatoriosResponse.data.length > 0*/) {
+            if (notasResponse.data.length > 0 || recordatoriosResponse.data.length > 0) {
                 Alert.alert("Error", "No se puede eliminar la etiqueta porque tiene notas o recordatorios asociados.");
                 return; // Detiene la función si hay notas o recordatorios
             }
@@ -36,7 +36,7 @@ const Etiqueta = ({ etiqueta, onDelete, onEdit }) => {
                     onPress: () => {
                         axios.delete(`https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Etiquetas/${id}`)
                             .then(() => {
-                                Alert.alert("Etiqueta eliminada", `La etiqueta ${id} ha sido eliminada.`);
+                                Alert.alert("Etiqueta eliminada", `La etiqueta  ha sido eliminada.`);
                                 onDelete(id); // Llama a la función onDelete para actualizar la lista
                             })
                             .catch((error) => {
