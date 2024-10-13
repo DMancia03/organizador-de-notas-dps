@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const backgroundEtiqueta = '#AEAEAE';
 const textEtiqueta = 'white';
-const textEditar = '#3F6ED9';
+const textEditar = '#68b6ef';
 const textEliminar = '#ffa590';
 
 const Nota = ({ nota, editarNota, eliminarNota }) => {
@@ -12,7 +12,7 @@ const Nota = ({ nota, editarNota, eliminarNota }) => {
         <View style={styles.nota}>
             <Text style={styles.notaTitle}><Icon name='note' size={20} /> {nota.nombre}</Text>
             <View style={styles.etiqueta}>
-                <Text style={styles.etiquetaNombre}><Icon name='label' color={textEtiqueta} size={10} /> {nota.nombreEtiqueta}</Text>
+                <Text style={styles.etiquetaNombre}><Icon name='tag' color={textEtiqueta} size={10} /> {nota.nombreEtiqueta}</Text>
             </View>
             <Text>{nota.contenido}</Text>
             <View style={styles.opcionesArea}>
