@@ -13,7 +13,7 @@ const VerNotas = () => {
             <Stack.Navigator>
                 <Stack.Screen 
                     name="Notas" 
-                    initialParams={{ "nuevo" : false }}
+                    initialParams={{ "ultimaAccion" : 'inicio' }}
                     component={Notas}
                     options={{
                         title: 'Notas'

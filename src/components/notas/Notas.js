@@ -32,9 +32,8 @@ const Notas = ({ navigation, route }) => {
         };
 
         getNotas();
-    }, [route.params.nuevo]);
+    }, [route.params.ultimaAccion]);
     
-
     return (
         <ScrollView style={styles.main}>
             <View style={styles.opcionesArea}>

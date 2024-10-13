@@ -16,11 +16,13 @@ const esquemaValidacion = Yup.object({
 const GuardarNota = ({ navigation, route }) => {
     const [idUsuario, setIdUsuario] = useState(1);
     const [etiquetas, setEtiquetas] = useState([]);
-    const [cargando, setCargando] = useState(true);
+    const [cargandoEtiquetas, setCargandoEtiquetas] = useState(true);
+    const [nota, setNota] = useState({ nombre: '', contenido: '', idEtiqueta: 0 });
+    const [recargar, setRecargar] = useState(route.params.recargar);
 
     //Funciones
     const cancelarGuardado = () => {
-        navigation.navigate('Notas', { "nuevo" : true });
+        navigation.navigate('Notas', { "ultimaAccion" : "cancelarNota" });
     }
 
     const guardarNota = async (values) => {
@@ -40,7 +42,7 @@ const GuardarNota = ({ navigation, route }) => {
                 )
                 .then((response) => {
                     Alert.alert('Nota guardada', 'Nota guardada con éxito');
-                    navigation.navigate('Notas', { "nuevo" : true });
+                    navigation.navigate('Notas', { "ultimaAccion" : "crearNota" + response.data.idNota });
                 })
                 .catch((error) => {
                     Alert.alert('Error', error);
@@ -50,26 +52,70 @@ const GuardarNota = ({ navigation, route }) => {
                 Alert.alert('Error', error);
             };
         }
+        else if(route.params.accion == 'editar'){
+            try{
+                axios.put(
+                    'https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Notas/' + route.params.id, 
+                    stringJSON,
+                    {
+                        headers: { 'Content-Type': 'application/json' }
+                    }
+                )
+                .then((response) => {
+                    Alert.alert('Nota editada', 'Nota editada con éxito');
+                    navigation.navigate('Notas', { "ultimaAccion" : "editarNota" + response.data.idNota });
+                })
+                .catch((error) => {
+                    Alert.alert('Error', error);
+                });
+            }
+            catch(error){
+                Alert.alert('Error', error);
+            };
+        }
+        else{
+            Alert.alert('Error', 'Acción no permitida');
+        }
     }
 
-    //Asincronico
+    //Asincronicos
     useEffect(() => {
+        //Obtener las etiquetas desde la api
         const getEtiquetas = async () => {
             axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Etiquetas/id_usuario/' + idUsuario)
             .then((response) => {
-                const etiquetaDefault = { idEtiqueta: 0, nombre: 'Seleccione una etiqueta' };
+                //Guardar etiquetas obtenidas desde api
                 setEtiquetas(response.data);
+                //Crear etiqueta default
+                const etiquetaDefault = { idEtiqueta: 0, nombre: 'Seleccione una etiqueta' };
+                //Guardar etiqueta default
                 setEtiquetas([etiquetaDefault, ...response.data]);
-                setCargando(false);
+                //Indicando que ya se guardaron las etiquetas
+                setCargandoEtiquetas(false);
             });
         };
 
+        //Obteniendo la data de la nota que se quiere editar
+        const getNota = async () => {
+            if(route.params.accion == 'editar'){
+                //Obtener la nota desde la api
+                const id = route.params.id;
+                axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Notas/' + id)
+                .then((response) => {
+                    setNota(response.data);
+                });
+            }
+        }
+
+        //Ejecutar las funciones asincronicas
         getEtiquetas();
+        getNota();
     }, []);
 
     return (
         <Formik
-            initialValues={{ nombre: '', contenido: '', idEtiqueta: 0 }}
+            initialValues={nota}
+            enableReinitialize={true}
             validationSchema={esquemaValidacion}
             onSubmit={(values) => {
                 guardarNota(values);
@@ -91,7 +137,7 @@ const GuardarNota = ({ navigation, route }) => {
                     <View style={styles.inputGroup}>
                         <Text style={styles.label}>Etiqueta:</Text>
                         {
-                            cargando ? 
+                            cargandoEtiquetas ? 
                             (
                                 <Text style={styles.label}>Cargando...</Text>
                             ) 
