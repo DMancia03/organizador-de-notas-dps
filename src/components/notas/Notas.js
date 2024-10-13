@@ -7,23 +7,24 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 //Colores
 const backgroundCrear = '#7aac6c';
 
-const Notas = ({ navigation }) => {
-    const idUsuario = 1;
+const Notas = ({ navigation, route }) => {
+    const [idUsuario, setIdUsuario] = useState(1);
     const [notas, setNotas] = useState([]);
 
     const crearNota = () => {
-        navigation.navigate('GuardarNota');
+        navigation.navigate('CrearNota', { "accion" : 'crear' });
     }
 
     useEffect(() => {
         const getNotas = async () => {
-            axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Notas/usuario/' + idUsuario).then((response) => {
+            axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Notas/usuario/' + idUsuario)
+            .then((response) => {
                 setNotas(response.data);
             });
         };
 
         getNotas();
-    }, [])
+    }, [route.params.nuevo]);
     
 
     return (

@@ -3,35 +3,141 @@ import { View, Text, StyleSheet, TouchableOpacity, Alert, TextInput } from "reac
 import * as Yup from 'yup';
 import { Formik } from "formik";
 import { Picker } from "@react-native-picker/picker";
+import axios from "axios";
+import { ScrollView } from "react-native-gesture-handler";
 
 //Validaciones con YUP
 const esquemaValidacion = Yup.object({
     nombre: Yup.string().required('El nombre es obligatorio'),
     contenido: Yup.string().required('El contenido es obligatorio'),
-    idEtiqueta: Yup.number().required('La etiqueta es obligatoria'),
+    idEtiqueta: Yup.number().min(1, "Debe seleccionar una etiqueta").required('La etiqueta es obligatoria')
 });
 
-const GuardarNota = () => {
+const GuardarNota = ({ navigation, route }) => {
+    const [idUsuario, setIdUsuario] = useState(1);
+    const [etiquetas, setEtiquetas] = useState([]);
+    const [cargando, setCargando] = useState(true);
+
+    //Funciones
+    const cancelarGuardado = () => {
+        navigation.navigate('Notas', { "nuevo" : true });
+    }
+
+    const guardarNota = async (values) => {
+        values.idUsuario = idUsuario;
+        values.estado = "ACTIVO";
+
+        const stringJSON = JSON.stringify(values);
+
+        if(route.params.accion == 'crear'){
+            try{
+                await axios.post(
+                    'https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Notas', 
+                    stringJSON,
+                    {
+                        headers: { 'Content-Type': 'application/json' }
+                    }
+                )
+                .then((response) => {
+                    Alert.alert('Nota guardada', 'Nota guardada con éxito');
+                    navigation.navigate('Notas', { "nuevo" : true });
+                })
+                .catch((error) => {
+                    Alert.alert('Error', error);
+                });
+            }
+            catch(error){
+                Alert.alert('Error', error);
+            };
+        }
+    }
+
+    //Asincronico
+    useEffect(() => {
+        const getEtiquetas = async () => {
+            axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Etiquetas/id_usuario/' + idUsuario)
+            .then((response) => {
+                const etiquetaDefault = { idEtiqueta: 0, nombre: 'Seleccione una etiqueta' };
+                setEtiquetas(response.data);
+                setEtiquetas([etiquetaDefault, ...response.data]);
+                setCargando(false);
+            });
+        };
+
+        getEtiquetas();
+    }, []);
+
     return (
         <Formik
             initialValues={{ nombre: '', contenido: '', idEtiqueta: 0 }}
             validationSchema={esquemaValidacion}
             onSubmit={(values) => {
-                Alert.alert(JSON.stringify(values));
+                guardarNota(values);
             }}
         >
             {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
-                <View>
-                    <Text>Hola</Text>
-                    <View>
-                        <Text>Nombre de la nota:</Text>
-                        <TextInput />
+                <ScrollView style={styles.main}>
+                    <View style={styles.inputGroup}>
+                        <Text style={styles.label}>Nombre de la nota (50 max.):</Text>
+                        <TextInput
+                            style={styles.textbox}
+                            maxLength={50}
+                            value={values.nombre}
+                            onChangeText={handleChange('nombre')}
+                            onBlur={handleBlur('nombre')}
+                        />
+                        {touched.nombre && errors.nombre && <Text style={styles.error}>{errors.nombre}</Text>}
                     </View>
-                    <View>
-                        <Text>Contenido del nota:</Text>
-                        <TextInput />
+                    <View style={styles.inputGroup}>
+                        <Text style={styles.label}>Etiqueta:</Text>
+                        {
+                            cargando ? 
+                            (
+                                <Text style={styles.label}>Cargando...</Text>
+                            ) 
+                            : 
+                            (
+                                <Picker
+                                    selectedValue={values.idEtiqueta}
+                                    onValueChange={(value, index) => {setFieldValue('idEtiqueta', value)}}
+                                >
+                                    {
+                                        etiquetas.map((item) => (
+                                            <Picker.Item
+                                                label={item.nombre}
+                                                value={item.idEtiqueta}
+                                                key={item.idEtiqueta}
+                                            />
+                                        ))
+                                    }
+                                </Picker>
+                            )
+                        }
+                        {touched.idEtiqueta && errors.idEtiqueta && <Text style={styles.error}>{errors.idEtiqueta}</Text>}
                     </View>
-                </View>
+                    <View style={styles.inputGroup}>
+                        <Text style={styles.label}>Contenido de la nota (300 max.):</Text>
+                        <TextInput
+                            style={styles.textarea}
+                            multiline={true}
+                            numberOfLines={5}
+                            maxLength={300}
+                            placeholder="..."
+                            value={values.contenido}
+                            onChangeText={handleChange('contenido')}
+                            onBlur={handleBlur('contenido')}
+                        />
+                        {touched.contenido && errors.contenido && <Text style={styles.error}>{errors.contenido}</Text>}
+                    </View>
+                    <View style={styles.buttonGroup}>
+                        <TouchableOpacity style={styles.buttomSave} onPress={handleSubmit}>
+                            <Text>Guardar nota</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.buttomCancel} onPress={cancelarGuardado}>
+                            <Text>Cancelar</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
             )}
         </Formik>
     );
@@ -40,5 +146,57 @@ const GuardarNota = () => {
 export default GuardarNota;
 
 const styles = StyleSheet.create({
-    //
+    main: {
+        display: 'flex',
+        flexDirection: 'column',
+        padding:20,
+    },
+    header: {
+        display: 'flex',
+    },
+    headerText: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        color: '#56413E'
+    },
+    error: {
+        color: 'red',
+        fontSize: 15
+    },
+    inputGroup: {
+        display: 'flex',
+        flexDirection: 'column',
+        padding:20
+    },
+    buttonGroup:{
+        display: 'flex',
+        flexDirection: 'row',
+        padding:20
+    },
+    label:{
+        fontSize: 20
+    },
+    textbox: {
+        fontSize: 20,
+        borderBlockColor: '#56413E',
+        borderBottomWidth: 1,
+    },
+    textarea: {
+        fontSize: 20,
+        borderBlockColor: '#AEAEAE',
+        borderWidth: 1,
+        padding:10,
+        textAlignVertical: 'top',
+        height: 150
+    },
+    buttomSave:{
+        backgroundColor: 'green',
+        padding: 10,
+        borderRadius: 10,
+    },
+    buttomCancel:{
+        backgroundColor: 'red',
+        padding: 10,
+        borderRadius: 10,
+    },
 });

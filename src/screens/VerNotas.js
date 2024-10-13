@@ -13,16 +13,18 @@ const VerNotas = () => {
             <Stack.Navigator>
                 <Stack.Screen 
                     name="Notas" 
+                    initialParams={{ "nuevo" : false }}
                     component={Notas}
                     options={{
                         title: 'Notas'
                     }}
                 />
                 <Stack.Screen 
-                    name="GuardarNota" 
+                    name="CrearNota"
+                    initialParams={{ "accion" : 'crear' }} 
                     component={GuardarNota}
                     options={{
-                        title: 'Guardar nota'
+                        title: 'Crear nota'
                     }}
                 />
             </Stack.Navigator>
