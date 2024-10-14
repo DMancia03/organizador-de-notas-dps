@@ -8,7 +8,7 @@ import Etiquetas from "../components/Etiquetas/Etiquetas";
 
 const Stack = createStackNavigator();
 
-const VerNotas = () => {
+const VerEtiquetas = () => {
     return (
         <>
             <Stack.Navigator>
@@ -31,5 +31,5 @@ const VerNotas = () => {
     );
 }
 
-export default VerNotas;
+export default VerEtiquetas;
 
