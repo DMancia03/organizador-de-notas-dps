@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import axios from "axios";
+import { getSesionIdUsuario } from "../security/ManejarSesiones";
 
 const GuardarEtiqueta = ({ navigation, route }) => {
     const { etiqueta } = route.params || {}; // Obtén la etiqueta a editar
@@ -9,11 +10,19 @@ const GuardarEtiqueta = ({ navigation, route }) => {
     const [nombreEtiqueta, setNombreEtiqueta] = useState("");
     const [isButtonDisabled, setIsButtonDisabled] = useState(false); // Estado para controlar el botón
 
+    const [idUsuario, setIdUsuario] = useState(0); // Suponiendo que el id del usuario es 0
+
     // Carga el nombre de la etiqueta si está en modo de edición
     useEffect(() => {
         if (isEdit) {
             setNombreEtiqueta(etiqueta.nombre);
         }
+
+        const setUserSession = async () => {
+            await setIdUsuario(await getSesionIdUsuario());
+        }
+
+        setUserSession();
     }, [isEdit, etiqueta]);
 
     const guardarEtiqueta = () => {
@@ -32,7 +41,7 @@ const GuardarEtiqueta = ({ navigation, route }) => {
 
         axios[method](url, {
             nombre: nombreEtiqueta,
-            idUsuario: 1 // Suponiendo que el id del usuario es 1
+            idUsuario: idUsuario // Suponiendo que el id del usuario es 1
         })
         .then(() => {
             Alert.alert("Éxito", isEdit ? "Etiqueta actualizada correctamente." : "Etiqueta guardada correctamente.");

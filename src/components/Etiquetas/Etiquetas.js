@@ -4,11 +4,12 @@ import { useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
 import Etiqueta from "./Etiqueta";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { getSesionIdUsuario } from "../security/ManejarSesiones";
 
 const backgroundCrear = '#7aac6c';
 
 const Etiquetas = ({ navigation }) => {
-    const idUsuario = 1;
+    const [idUsuario, setIdUsuario] = useState(0);
     const [etiquetas, setEtiquetas] = useState([]);
     const [searchTerm, setSearchTerm] = useState(""); // Estado para el término de búsqueda
 
@@ -20,7 +21,9 @@ const Etiquetas = ({ navigation }) => {
     useFocusEffect(
         React.useCallback(() => {
             const getEtiquetas = async () => {
-                axios.get(`https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Etiquetas/id_usuario/${idUsuario}`)
+                const user = await getSesionIdUsuario();
+
+                axios.get(`https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Etiquetas/id_usuario/${user}`)
                     .then((response) => {
                         setEtiquetas(response.data);
                     })
@@ -29,6 +32,12 @@ const Etiquetas = ({ navigation }) => {
                         Alert.alert("Error", "No se pudieron cargar las etiquetas.");
                     });
             };
+
+            const setUserSession = async () => {
+                await setIdUsuario(await getSesionIdUsuario());
+            }
+    
+            setUserSession();
             getEtiquetas();
         }, [])
     );

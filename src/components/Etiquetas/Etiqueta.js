@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from "axios";
+import { getSesionIdUsuario } from "../security/ManejarSesiones";
 
 const backgroundEtiqueta = '#AEAEAE';
 const textEtiqueta = 'white';
@@ -12,8 +13,9 @@ const Etiqueta = ({ etiqueta, onDelete, onEdit }) => {
     const eliminarEtiqueta = async (id) => {
         // Verifica si hay notas o recordatorios asociados a la etiqueta
         try {
-            const notasResponse = await axios.get(`https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Notas/usuario/1/id_etiqueta/${id}`);
-            const recordatoriosResponse = await axios.get(`https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Recordatorios/usuario/1/id_etiqueta/${id}`);
+            const user = await getSesionIdUsuario();
+            const notasResponse = await axios.get(`https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Notas/usuario/${user}/id_etiqueta/${id}`);
+            const recordatoriosResponse = await axios.get(`https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Recordatorios/usuario/${user}/id_etiqueta/${id}`);
 
             if (notasResponse.data.length > 0 || recordatoriosResponse.data.length > 0) {
                 Alert.alert("Error", "No se puede eliminar la etiqueta porque tiene notas o recordatorios asociados.");
