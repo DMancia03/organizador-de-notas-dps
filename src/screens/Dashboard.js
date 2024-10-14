@@ -17,12 +17,22 @@ import ViewRecordatorio from "../components/recordatorio/viewRecordatorio";
 //Etiquetas
 import Etiquetas from "../components/Etiquetas/Etiquetas";
 import GuardarEtiqueta from "../components/Etiquetas/GuardarEtiqueta";
+//Dashboard
+import Menu from "../components/dashboard/Menu";
 
 const Stack = createStackNavigator();
 
 const Dashboard = () => {
     return (
         <Stack.Navigator>
+            {/* DASHBOARD */}
+            <Stack.Screen 
+                name="Menu"
+                component={Menu}
+                options={{
+                    title: 'Menú'
+                }}
+            />
             {/* NOTAS */}
             <Stack.Screen 
                 name="Notas" 
