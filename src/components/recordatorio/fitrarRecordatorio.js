@@ -19,29 +19,33 @@ const FiltrarRecordatorio = ({navigation}) => {
 
 
     async function filtrar(){
-        if(mode === 'nombre'){
+        if(inputText != ''){
+            if(mode === 'nombre'){
 
-            setBusqueda(true)
-            setConsultando(true)
-            axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Recordatorios/usuario/1/nombre_etiqueta/' + inputText).then((response) => {
-                setRecordatorios(response.data);
-                setConsultando(false)
-            });
-            
-
-        }else if(mode === 'id'){
-
-            setBusqueda(true)
-            setConsultando(true)
-            axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Recordatorios/usuario/1/id_etiqueta/' + inputText).then((response) => {
-                setRecordatorios(response.data);
-                setConsultando(false)
-            });
-            
-
+                setBusqueda(true)
+                setConsultando(true)
+                axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Recordatorios/usuario/1/nombre_etiqueta/' + inputText).then((response) => {
+                    setRecordatorios(response.data);
+                    setConsultando(false)
+                });
+                
+    
+            }else if(mode === 'id'){
+    
+                setBusqueda(true)
+                setConsultando(true)
+                axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Recordatorios/usuario/1/id_etiqueta/' + inputText).then((response) => {
+                    setRecordatorios(response.data);
+                    setConsultando(false)
+                });
+                
+    
+            }else{
+                alert('Hubo un error con la seleccion de filtro. Por favor seleccione de nuevo')
+                setBusqueda(false)
+            }
         }else{
-            alert('Hubo un error con la seleccion de filtro. Por favor seleccione de nuevo')
-            setBusqueda(false)
+            alert('Escriba algo para poder buscar')
         }
     }
 
