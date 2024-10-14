@@ -29,10 +29,9 @@ const Recordatorio = ({navigation}) => {
         navigation.navigate('ViewRecordatorio', {data});
     }
 
-    const eliminarRecordatorio = async (id) => {
-        console.log(id)
+    const eliminarRecordatorio = (id) => {
         try{
-            const response = await axios.delete(`https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Recordatorios/${id}`);
+            const response = axios.delete(`https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Recordatorios/${id}`);
             console.log('Respuesta del servidor:', response.data);
             getRecordatorio()
             alert('Eliminado')
