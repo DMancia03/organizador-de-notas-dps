@@ -2,7 +2,7 @@ import react, { useState, useEffect } from "react";
 import { View, Text, Alert, ScrollView, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import axios from "axios";
 import PapeleraNota from "./PapeleraNota";
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { getSesionIdUsuario } from "../security/ManejarSesiones";
 
 //Colores
 const backgroundCrear = '#7aac6c';
@@ -11,7 +11,7 @@ const backgroundEliminar = '#ffa590';
 
 const Notas = ({ navigation, route }) => {
     //Variables
-    const [idUsuario, setIdUsuario] = useState(1);
+    const [idUsuario, setIdUsuario] = useState(0);
     const [notas, setNotas] = useState([]);
     const [recargar, setRecargar] = useState(false);
 
@@ -46,7 +46,9 @@ const Notas = ({ navigation, route }) => {
     //Acciones asincronicas
     useEffect(() => {
         const getNotas = async () => {
-            axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Notas/usuario/' + idUsuario + '/papelera')
+            const user = await getSesionIdUsuario();
+
+            axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Notas/usuario/' + user + '/papelera')
             .then((response) => {
                 setNotas(response.data);
             })
@@ -55,6 +57,11 @@ const Notas = ({ navigation, route }) => {
             });
         };
 
+        const setAsyncIdUser = async () => {
+            setIdUsuario(await getSesionIdUsuario());
+        }
+
+        setAsyncIdUser();
         getNotas();
     }, [recargar]);
     
