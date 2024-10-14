@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Text, View, ScrollView, StyleSheet, Alert, TouchableOpacity } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { setSesionIdUsuario, getSesionIdUsuario } from "../security/ManejarSesiones";
 
 const Menu = ({ navigation }) => {
     //Navegar entre pantallas
@@ -20,14 +20,11 @@ const Menu = ({ navigation }) => {
         navigation.navigate('PapeleraNotas');
     }
 
-    //Establecer id usuario
-    const setSessionIdUsuario = async (id) => {
-        AsyncStorage.setItem('sessionIdUsuario', id);
-    }
+    
 
     //Asincronico
     useEffect(() => {
-        setSessionIdUsuario('1');
+        setSesionIdUsuario('1');
     });
 
     return (
