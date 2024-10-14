@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
         color: '#56413E'
     },
     error: {
-        color: '#ff2b16',
+        color: '#ee5d3e',
         fontSize: 15
     },
     inputGroup: {
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     buttomCancel:{
-        backgroundColor: '#ff2b16',
+        backgroundColor: '#ee5d3e',
         padding: 10,
         borderRadius: 10,
     },

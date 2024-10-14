@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const Menu = ({ navigation }) => {
     //Navegar entre pantallas
     const verNotas = () => {
-        navigation.navigate('Notas');
+        navigation.navigate('Notas', { "ultimaAccion" : 'inicio' });
     };
 
     const verRecordatorios = () => {
@@ -14,6 +14,10 @@ const Menu = ({ navigation }) => {
 
     const VerEtiquetas = () => {
         navigation.navigate('Etiquetas');
+    }
+
+    const verPapeleraNotas = () => {
+        navigation.navigate('PapeleraNotas');
     }
 
     return (
@@ -27,7 +31,7 @@ const Menu = ({ navigation }) => {
             <TouchableOpacity onPress={() => VerEtiquetas()}>
                 <Text>Etiquetas</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => verPapeleraNotas()}>
                 <Text>Papelera de reciclaje</Text>
             </TouchableOpacity>
             <TouchableOpacity>

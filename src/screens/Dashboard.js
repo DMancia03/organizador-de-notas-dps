@@ -17,6 +17,8 @@ import ViewRecordatorio from "../components/recordatorio/viewRecordatorio";
 //Etiquetas
 import Etiquetas from "../components/Etiquetas/Etiquetas";
 import GuardarEtiqueta from "../components/Etiquetas/GuardarEtiqueta";
+//Papelera de reciclaje
+import PapeleraNotas from "../components/papelera/PapeleraNotas";
 //Dashboard
 import Menu from "../components/dashboard/Menu";
 
@@ -100,6 +102,14 @@ const Dashboard = () => {
                 component={GuardarEtiqueta}
                 options={{
                     title: 'Guardar etiqueta'
+                }}
+            />
+            {/* PAPELERA NOTAS */}
+            <Stack.Screen 
+                name="PapeleraNotas"
+                component={PapeleraNotas}
+                options={{
+                    title: 'Papelera de reciclaje (Notas)'
                 }}
             />
         </Stack.Navigator>
