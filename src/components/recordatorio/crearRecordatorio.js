@@ -40,6 +40,10 @@ const CrearRecordatorio = ({navigation}) => {
         .then((response) => {
           setEtiquetas(response.data);
           setCargando(false)
+        })
+        .catch((error) => {
+          console.error("Error al obtener etiquetas: ", error);
+          Alert.alert("Error", "No se pudieron cargar las etiquetas.");
         });
     };
 

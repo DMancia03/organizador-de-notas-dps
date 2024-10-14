@@ -24,7 +24,7 @@ const Menu = ({ navigation }) => {
 
     //Asincronico
     useEffect(() => {
-        setSesionIdUsuario('1');
+        setSesionIdUsuario('2');
     });
 
     return (

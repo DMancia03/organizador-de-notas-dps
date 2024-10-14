@@ -77,6 +77,25 @@ const Notas = ({ navigation, route }) => {
         setUserSession();
         getNotas();
     }, [route.params.ultimaAccion, recargar]);
+
+    const AreaVaciaFiltro = () => {
+        return (
+            <View style={styles.areaVacia}>
+                <Text>No hay notas con esa etiqueta...</Text>
+                <TouchableOpacity style={styles.opcionCancelarFiltrar} onPress={() => cancelarFiltro()}>
+                    <Text><Icon name='tag-remove' size={20} /> Cancelar busqueda</Text>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+
+    const AreaVaciaInicio =() => {
+        return (
+            <View style={styles.areaVacia}>
+                <Text>No hay notas...</Text>
+            </View>
+        )
+    }
     
     return (
         <ScrollView style={styles.main}>
@@ -98,12 +117,7 @@ const Notas = ({ navigation, route }) => {
             </View>
             {
                 notas.length == 0 ? 
-                    <View style={styles.areaVacia}>
-                        <Text>No hay notas con esa etiqueta...</Text>
-                        <TouchableOpacity style={styles.opcionCancelarFiltrar} onPress={() => cancelarFiltro()}>
-                            <Text><Icon name='tag-remove' size={20} /> Cancelar busqueda</Text>
-                        </TouchableOpacity>
-                    </View>
+                    filtro == '' ? <AreaVaciaInicio /> : <AreaVaciaFiltro />
                 :
                     notas.map((nota) => (<Nota nota={nota} editarNota={editarNota} eliminarNota={eliminarNota} key={nota.idNota} />))
             }
