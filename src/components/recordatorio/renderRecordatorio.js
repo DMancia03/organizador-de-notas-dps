@@ -22,7 +22,7 @@ const RenderRecordatorio = ({dataRec, onPress, onDelete}) => {
             <Text>{dataRec.contenido}</Text>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.buttonEdit} onPress={() => onPress(dataRec)}><Text style={styles.buttonText}><Icon name='eye' size={20} /> Ver</Text></TouchableOpacity>
-                <TouchableOpacity style={styles.buttonDelete}><Text style={styles.buttonText}><Icon name='trash-can' size={20} onPress={() => onDelete(dataRec.idNota)} /> Eliminar</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.buttonDelete} onPress={() => onDelete(dataRec.idNota)}><Text style={styles.buttonText}><Icon name='trash-can' size={20} /> Eliminar</Text></TouchableOpacity>
             </View>
         </View>
     )

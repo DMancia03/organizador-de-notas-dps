@@ -4,6 +4,7 @@ import {Picker} from '@react-native-picker/picker'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from "axios";
 import RenderRecordatorio from "./renderRecordatorio";
+import { getSesionIdUsuario } from './../security/ManejarSesiones';
 
 const FiltrarRecordatorio = ({navigation}) => {
 
@@ -11,7 +12,8 @@ const FiltrarRecordatorio = ({navigation}) => {
     const [mode, setMode] = useState('nombre');
     const [inputText, setInputText] = useState('');
     const [busqueda, setBusqueda] = useState(false);
-    const [consultando, setConsultando] = useState(false)
+    const [consultando, setConsultando] = useState(false);
+    const [idUsuario, setIdUsuario] = useState(0);
 
     const verRecordatorio = (data) => {
         navigation.navigate('ViewRecordatorio', {data});
@@ -19,12 +21,16 @@ const FiltrarRecordatorio = ({navigation}) => {
 
 
     async function filtrar(){
+        const user = await getSesionIdUsuario();
+
+        setIdUsuario(user);
+
         if(inputText != ''){
             if(mode === 'nombre'){
 
                 setBusqueda(true)
                 setConsultando(true)
-                axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Recordatorios/usuario/1/nombre_etiqueta/' + inputText).then((response) => {
+                axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Recordatorios/usuario/' + user + '/nombre_etiqueta/' + inputText).then((response) => {
                     setRecordatorios(response.data);
                     setConsultando(false)
                 });
@@ -34,7 +40,7 @@ const FiltrarRecordatorio = ({navigation}) => {
     
                 setBusqueda(true)
                 setConsultando(true)
-                axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Recordatorios/usuario/1/id_etiqueta/' + inputText).then((response) => {
+                axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Recordatorios/usuario/' + user + '/id_etiqueta/' + inputText).then((response) => {
                     setRecordatorios(response.data);
                     setConsultando(false)
                 });

@@ -12,6 +12,8 @@ import axios from "axios";
 import { Picker } from "@react-native-picker/picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { getSesionIdUsuario } from "./../security/ManejarSesiones";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 const CrearRecordatorio = ({navigation}) => {
   const [show, setShow] = useState(false);
@@ -20,16 +22,20 @@ const CrearRecordatorio = ({navigation}) => {
   const [contenido, setContenido] = useState("");
   const [nombre, setNombre] = useState("");
   const [idEtiqueta, setIdEtiqueta] = useState(1);
-  const [idUsuario, setIdUsuario] = useState(1);
+  const [idUsuario, setIdUsuario] = useState(0);
   const [etiquetas, setEtiquetas] = useState([]);
   const [selectedValue, setSelectedValue] = useState('');
 
   useEffect(() => {
     const getEtiquetas = async () => {
+      const user = await getSesionIdUsuario();
+
+      setIdUsuario(user);
+
       axios
         .get(
           "https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Etiquetas/id_usuario/" +
-            idUsuario
+            user
         )
         .then((response) => {
           setEtiquetas(response.data);

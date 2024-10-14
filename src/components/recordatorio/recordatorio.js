@@ -5,14 +5,19 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from "axios";
 import RenderRecordatorio from "./renderRecordatorio";
 import React from "react";
+import { getSesionIdUsuario } from './../security/ManejarSesiones'
 
 const Recordatorio = ({navigation}) => {
 
-    const idUsuario = 1;
+    const [idUsuario, setIdUsuario] = useState(0);
     const [recordatorios, setRecordatorios] = useState([]);
 
     const getRecordatorio = async () => {
-        axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Recordatorios/usuario/' + idUsuario).then((response) => {
+        const user = await getSesionIdUsuario();
+
+        setIdUsuario(user);
+
+        axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Recordatorios/usuario/' + user).then((response) => {
             setRecordatorios(response.data);
         });
     };
@@ -31,12 +36,15 @@ const Recordatorio = ({navigation}) => {
 
     const eliminarRecordatorio = (id) => {
         try{
-            const response = axios.delete(`https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Recordatorios/${id}`);
-            console.log('Respuesta del servidor:', response.data);
-            getRecordatorio()
-            alert('Eliminado')
+            axios.delete(`https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Recordatorios/${id}`)
+            .then((response) => {
+                console.log('Respuesta del servidor:', response.data);
+                getRecordatorio();
+                Alert.alert('Recordatorio eliminado exitosamente');
+            });
+            
         }catch(error){
-            console.log(error)
+            console.log(error);
         }
     }
 
@@ -49,8 +57,8 @@ const Recordatorio = ({navigation}) => {
 
     return(
         <ScrollView style={styles.container}>
-            <TouchableOpacity style={styles.button}>
-                <Icon name='plus-circle' color={'white'} size={20} onPress={() => createRecordatorio()}> Crear Recordatorio</Icon>
+            <TouchableOpacity style={styles.button} onPress={() => createRecordatorio()}>
+                <Icon name='plus-circle' color={'white'} size={20}> Crear Recordatorio</Icon>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button}>
                 <Icon name='pencil-outline' color={'white'} size={20} onPress={() => filtrarRecordatorio()}> Filtrar Recordatorio</Icon>
