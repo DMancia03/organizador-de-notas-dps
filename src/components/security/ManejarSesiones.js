@@ -11,4 +11,14 @@ const getSesionIdUsuario = async () => {
     return await AsyncStorage.getItem('sessionIdUsuario');
 }
 
-export { setSesionIdUsuario, getSesionIdUsuario };
+//Establecer id usuario
+const setSesionNombreUsuario = async (nombre) => {
+    await AsyncStorage.setItem('sessionNombreUsuario', nombre);
+}
+
+//Obtener id usuario
+const getSesionNombreUsuario = async () => {
+    return await AsyncStorage.getItem('sessionNombreUsuario');
+}
+
+export { setSesionIdUsuario, getSesionIdUsuario, setSesionNombreUsuario, getSesionNombreUsuario };

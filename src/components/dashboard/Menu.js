@@ -1,8 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, ScrollView, StyleSheet, Alert, TouchableOpacity } from "react-native";
-import { setSesionIdUsuario, getSesionIdUsuario } from "../security/ManejarSesiones";
+import { getSesionNombreUsuario, getSesionIdUsuario } from "../security/ManejarSesiones";
 
 const Menu = ({ navigation }) => {
+    //Variables
+    const [username, setUsername] = useState('');
+
     //Navegar entre pantallas
     const verNotas = () => {
         navigation.navigate('Notas', { "ultimaAccion" : 'inicio' });
@@ -20,15 +23,20 @@ const Menu = ({ navigation }) => {
         navigation.navigate('PapeleraNotas');
     }
 
-    
-
     //Asincronico
     useEffect(() => {
-        setSesionIdUsuario('2');
-    });
+        const obtenerNombreUsuario = async () => {
+            setUsername(await getSesionNombreUsuario());
+        }
+
+        obtenerNombreUsuario();
+    }, []);
 
     return (
         <View>
+            <View>
+                <Text>Bienvenido {username}</Text>
+            </View>
             <TouchableOpacity onPress={() => verNotas()}>
                 <Text>Notas</Text>
             </TouchableOpacity>

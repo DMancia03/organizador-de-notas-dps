@@ -21,12 +21,31 @@ import GuardarEtiqueta from "../components/Etiquetas/GuardarEtiqueta";
 import PapeleraNotas from "../components/papelera/PapeleraNotas";
 //Dashboard
 import Menu from "../components/dashboard/Menu";
+//Seguridad
+import Login from "../components/security/Login";
+import Signup from "../components/security/Signup";
+import { getSesionNombreUsuario, getSesionIdUsuario } from './../components/security/ManejarSesiones';
 
 const Stack = createStackNavigator();
 
 const Dashboard = () => {
     return (
         <Stack.Navigator>
+            {/* SEGURIDAD */}
+            <Stack.Screen
+                name="Login"
+                component={Login}
+                options={{
+                    title: 'Iniciar sesión'
+                }}
+            />
+            <Stack.Screen
+                name="Signup"
+                component={Signup}
+                options={{
+                    title: 'Registrarse'
+                }}
+            />
             {/* DASHBOARD */}
             <Stack.Screen 
                 name="Menu"
