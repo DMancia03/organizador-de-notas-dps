@@ -6,6 +6,7 @@ import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
 import { ScrollView } from "react-native-gesture-handler";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { getSesionIdUsuario } from "../security/ManejarSesiones";
 
 //Validaciones con YUP
 const esquemaValidacion = Yup.object({
@@ -15,7 +16,7 @@ const esquemaValidacion = Yup.object({
 });
 
 const GuardarNota = ({ navigation, route }) => {
-    const [idUsuario, setIdUsuario] = useState(1);
+    const [idUsuario, setIdUsuario] = useState(0);
     const [etiquetas, setEtiquetas] = useState([]);
     const [cargandoEtiquetas, setCargandoEtiquetas] = useState(true);
     const [nota, setNota] = useState({ nombre: '', contenido: '', idEtiqueta: 0 });
@@ -83,7 +84,9 @@ const GuardarNota = ({ navigation, route }) => {
     useEffect(() => {
         //Obtener las etiquetas desde la api
         const getEtiquetas = async () => {
-            axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Etiquetas/id_usuario/' + idUsuario)
+            const user = await getSesionIdUsuario();
+
+            axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Etiquetas/id_usuario/' + user)
             .then((response) => {
                 //Guardar etiquetas obtenidas desde api
                 setEtiquetas(response.data);
@@ -93,6 +96,9 @@ const GuardarNota = ({ navigation, route }) => {
                 setEtiquetas([etiquetaDefault, ...response.data]);
                 //Indicando que ya se guardaron las etiquetas
                 setCargandoEtiquetas(false);
+            })
+            .catch((error) => {
+                Alert.alert('Error', error);
             });
         };
 
@@ -104,11 +110,19 @@ const GuardarNota = ({ navigation, route }) => {
                 axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Notas/' + id)
                 .then((response) => {
                     setNota(response.data);
+                })
+                .catch((error) => {
+                    Alert.alert('Error', error);
                 });
             }
         }
 
+        const setUserSession = async () => {
+            await setIdUsuario(await getSesionIdUsuario());
+        }
+
         //Ejecutar las funciones asincronicas
+        setUserSession();
         getEtiquetas();
         getNota();
     }, []);
