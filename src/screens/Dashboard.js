@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext } from "react";
 import { Text, View, ScrollView, StyleSheet, Alert, TouchableOpacity } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -27,31 +27,19 @@ import Signup from "../components/security/Signup";
 import { getSesionNombreUsuario, getSesionIdUsuario } from './../components/security/ManejarSesiones';
 
 const Stack = createStackNavigator();
-
-const Dashboard = () => {
+export const adminContext = createContext();
+const Dashboard = ({ sesionIniciada, setSesionIniciada }) => {
+    
     return (
-        <Stack.Navigator>
-            {/* SEGURIDAD */}
-            <Stack.Screen
-                name="Login"
-                component={Login}
-                options={{
-                    title: 'Iniciar sesión'
-                }}
-            />
-            <Stack.Screen
-                name="Signup"
-                component={Signup}
-                options={{
-                    title: 'Registrarse'
-                }}
-            />
+        <adminContext.Provider value={{sesionIniciada, setSesionIniciada}}>
+            <Stack.Navigator>
             {/* DASHBOARD */}
             <Stack.Screen 
                 name="Menu"
                 component={Menu}
                 options={{
-                    title: 'Organizador de notas'
+                    title: 'Organizador de notas',
+                    
                 }}
             />
             {/* NOTAS */}
@@ -132,6 +120,7 @@ const Dashboard = () => {
                 }}
             />
         </Stack.Navigator>
+        </adminContext.Provider>
     )
 }
 

@@ -1,11 +1,11 @@
-import React, {useState} from "react";
+import React, { useState, useEffect} from "react";
 import { Text, TouchableOpacity, View, TextInput, Alert, StyleSheet } from "react-native";
 import axios from "axios";
 import { setSesionIdUsuario, getSesionIdUsuario, setSesionNombreUsuario, getSesionNombreUsuario } from "../security/ManejarSesiones";
 
 const backgrouncolor = '#fff1d7';
 
-const Login = ({ navigation }) => {
+const Login = ({ sesionIniciada, setSesionIniciada, registrandose, setRegistrandose }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -28,7 +28,7 @@ const Login = ({ navigation }) => {
             Alert.alert('Login', 'Iniciaste sesión correctamente');
             setSesionIdUsuario(response.data.idUsuario.toString());
             setSesionNombreUsuario(response.data.username);
-            navigation.navigate('Menu');
+            setSesionIniciada(true);
         })
         .catch((error) => {
             Alert.alert('Error', 'No se pudo iniciar sesión');
@@ -60,7 +60,7 @@ const Login = ({ navigation }) => {
                     <TouchableOpacity style={styles.buttomLogin} onPress={() => iniciarSesion()}>
                         <Text>Iniciar sesión</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttomRegistrarse} onPress={() => navigation.navigate('Signup')}>
+                    <TouchableOpacity style={styles.buttomRegistrarse} onPress={() => setRegistrandose(true)}>
                         <Text>Registrarse</Text>
                     </TouchableOpacity>
                 </View>

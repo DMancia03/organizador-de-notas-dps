@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Text, View, ScrollView, StyleSheet, Alert, TouchableOpacity } from "react-native";
 import { getSesionNombreUsuario, getSesionIdUsuario, setSesionIdUsuario, setSesionNombreUsuario } from "../security/ManejarSesiones";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {adminContext} from './../../screens/Dashboard';
 
 const backgrouncolor = '#fff1d7';
 
 const Menu = ({ navigation }) => {
     //Variables
     const [username, setUsername] = useState('');
+
+    const { setSesionIniciada, sesionIniciada } = useContext(adminContext);
 
     //Navegar entre pantallas
     const verNotas = () => {
@@ -26,10 +29,10 @@ const Menu = ({ navigation }) => {
         navigation.navigate('PapeleraNotas');
     }
 
-    const cerrarSesion = () => {
-        setSesionIdUsuario('');
-        setSesionNombreUsuario('');
-        navigation.navigate('Login');
+    const cerrarSesion = async () => {
+        await setSesionIdUsuario('');
+        await setSesionNombreUsuario('');
+        await setSesionIniciada(false);
     }
 
     //Asincronico
