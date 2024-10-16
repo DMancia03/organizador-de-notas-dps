@@ -39,6 +39,9 @@ const Login = ({ sesionIniciada, setSesionIniciada, registrandose, setRegistrand
     return (
         <View style={styles.main}>
             <View style={styles.container}>
+                <View style={styles.header}>
+                    <Text style={styles.title}>INICIAR SESIÓN</Text>
+                </View>
                 <View>
                     <Text style={styles.label}>Nombre de usuario:</Text>
                     <TextInput
@@ -61,7 +64,7 @@ const Login = ({ sesionIniciada, setSesionIniciada, registrandose, setRegistrand
                         <Text>Iniciar sesión</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.buttomRegistrarse} onPress={() => setRegistrandose(true)}>
-                        <Text>Registrarse</Text>
+                        <Text>¿No tienes una cuenta?</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -86,6 +89,16 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         display: 'flex',
         gap: 20,
+    },
+    header:{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    title:{
+        fontSize: 20,
+        color: '#56413E',
+        fontWeight: 'bold'
     },
     inputGroup: {
         display: 'flex',
