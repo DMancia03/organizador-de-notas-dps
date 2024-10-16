@@ -1,7 +1,9 @@
 import React, {useState} from "react";
-import { Text, TouchableOpacity, View, TextInput, Alert } from "react-native";
+import { Text, TouchableOpacity, View, TextInput, Alert, StyleSheet } from "react-native";
 import axios from "axios";
 import { setSesionIdUsuario, getSesionIdUsuario, setSesionNombreUsuario, getSesionNombreUsuario } from "../security/ManejarSesiones";
+
+const backgrouncolor = '#fff1d7';
 
 const Login = ({ navigation }) => {
     const [username, setUsername] = useState('');
@@ -35,30 +37,92 @@ const Login = ({ navigation }) => {
     }
 
     return (
-        <View>
-            <Text>Login</Text>
-            <View>
-                <Text>Nombre de usuario:</Text>
-                <TextInput
-                    value={username}
-                    onChangeText={(value) => setUsername(value)}
-                />
+        <View style={styles.main}>
+            <View style={styles.container}>
+                <View>
+                    <Text style={styles.label}>Nombre de usuario:</Text>
+                    <TextInput
+                        style={styles.textbox}
+                        value={username}
+                        onChangeText={(value) => setUsername(value)}
+                    />
+                </View>
+                <View>
+                    <Text style={styles.label}>Contraseña:</Text>
+                    <TextInput 
+                        style={styles.textbox}
+                        value={password}
+                        secureTextEntry={true}
+                        onChangeText={(value) => setPassword(value)}
+                    />
+                </View>
+                <View style={styles.buttonGroup}>
+                    <TouchableOpacity style={styles.buttomLogin} onPress={() => iniciarSesion()}>
+                        <Text>Iniciar sesión</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.buttomRegistrarse} onPress={() => navigation.navigate('Signup')}>
+                        <Text>Registrarse</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-            <View>
-                <Text>Contraseña:</Text>
-                <TextInput 
-                    value={password}
-                    onChangeText={(value) => setPassword(value)}
-                />
-            </View>
-            <TouchableOpacity onPress={() => iniciarSesion()}>
-                <Text>Iniciar sesión</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-                <Text>Registrarse</Text>
-            </TouchableOpacity>
         </View>
     )
 }
 
 export default Login;
+
+const styles = StyleSheet.create({
+    main:{
+        backgroundColor: backgrouncolor,
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+    },
+    container: {
+        backgroundColor: 'white',
+        margin: 40,
+        padding: 40,
+        borderRadius: 10,
+        display: 'flex',
+        gap: 20,
+    },
+    inputGroup: {
+        display: 'flex',
+        flexDirection: 'column',
+        padding:20
+    },
+    label:{
+        fontSize: 15
+    },
+    textbox: {
+        fontSize: 15,
+        borderBlockColor: '#56413E',
+        borderBottomWidth: 1,
+    },
+    buttonGroup:{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 20
+    },
+    buttomLogin:{
+        backgroundColor: '#68b6ef',
+        padding: 10,
+        borderRadius: 10,
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    buttomRegistrarse:{
+        backgroundColor: '#ffa590',
+        padding: 10,
+        borderRadius: 10,
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+})
