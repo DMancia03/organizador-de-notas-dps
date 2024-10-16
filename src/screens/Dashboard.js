@@ -51,7 +51,7 @@ const Dashboard = () => {
                 name="Menu"
                 component={Menu}
                 options={{
-                    title: 'Menú'
+                    title: 'Organizador de notas'
                 }}
             />
             {/* NOTAS */}

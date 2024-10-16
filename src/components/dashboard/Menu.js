@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, ScrollView, StyleSheet, Alert, TouchableOpacity } from "react-native";
-import { getSesionNombreUsuario, getSesionIdUsuario } from "../security/ManejarSesiones";
+import { getSesionNombreUsuario, getSesionIdUsuario, setSesionIdUsuario, setSesionNombreUsuario } from "../security/ManejarSesiones";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+const backgrouncolor = '#fff1d7';
 
 const Menu = ({ navigation }) => {
     //Variables
@@ -23,6 +26,12 @@ const Menu = ({ navigation }) => {
         navigation.navigate('PapeleraNotas');
     }
 
+    const cerrarSesion = () => {
+        setSesionIdUsuario('');
+        setSesionNombreUsuario('');
+        navigation.navigate('Login');
+    }
+
     //Asincronico
     useEffect(() => {
         const obtenerNombreUsuario = async () => {
@@ -33,27 +42,94 @@ const Menu = ({ navigation }) => {
     }, []);
 
     return (
-        <View>
-            <View>
-                <Text>Bienvenido {username}</Text>
+        <View style={styles.main}>
+            <View style={styles.container}>
+                <Text><Icon name="home-account" size={25} /> Bienvenido "{username}"</Text>
             </View>
-            <TouchableOpacity onPress={() => verNotas()}>
-                <Text>Notas</Text>
+            <TouchableOpacity style={styles.containerNotas} onPress={() => verNotas()}>
+                <Text><Icon name="note" size={25} /> Notas</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => verRecordatorios()}>
-                <Text>Recordatorios</Text>
+            <TouchableOpacity style={styles.containerRecordatorios} onPress={() => verRecordatorios()}>
+                <Text><Icon name="calendar-blank" size={25} /> Recordatorios</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => VerEtiquetas()}>
-                <Text>Etiquetas</Text>
+            <TouchableOpacity style={styles.containerEtiquetas} onPress={() => VerEtiquetas()}>
+                <Text><Icon name="tag" size={25} /> Etiquetas</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => verPapeleraNotas()}>
-                <Text>Papelera de reciclaje</Text>
+            <TouchableOpacity style={styles.containerPapelera} onPress={() => verPapeleraNotas()}>
+                <Text><Icon name="note-remove" size={25} /> Papelera de reciclaje</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
-                <Text>Cerrar sesión</Text>
+            <TouchableOpacity style={styles.containerCerrarSesion} onPress={() => cerrarSesion()}>
+                <Text><Icon name="cancel" size={25} /> Cerrar sesión</Text>
             </TouchableOpacity>
         </View>
     )
 }
 
 export default Menu;
+
+const styles = StyleSheet.create({
+    main:{
+        height: '100%',
+        display: 'flex',
+    },
+    container: {
+        backgroundColor: '#e5cbb4',
+        padding: 20,
+        margin: 20,
+        borderRadius: 10,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 20,
+    },
+    containerNotas: {
+        backgroundColor: '#68b6ef',
+        padding: 20,
+        margin: 20,
+        borderRadius: 10,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 20,
+    },
+    containerRecordatorios: {
+        backgroundColor: '#77dd77',
+        padding: 20,
+        margin: 20,
+        borderRadius: 10,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 20,
+    },
+    containerEtiquetas: {
+        backgroundColor: '#3F6ED9',
+        padding: 20,
+        margin: 20,
+        borderRadius: 10,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 20,
+    },
+    containerPapelera: {
+        backgroundColor: '#ffa590',
+        padding: 20,
+        margin: 20,
+        borderRadius: 10,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 20,
+    },
+    containerCerrarSesion: {
+        backgroundColor: '#ee5d3e',
+        padding: 20,
+        margin: 20,
+        borderRadius: 10,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 20,
+    },
+})
