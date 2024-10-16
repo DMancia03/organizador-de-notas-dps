@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
         gap: 20,
     },
     containerEtiquetas: {
-        backgroundColor: '#3F6ED9',
+        backgroundColor: '#feff3a',
         padding: 20,
         margin: 20,
         borderRadius: 10,
