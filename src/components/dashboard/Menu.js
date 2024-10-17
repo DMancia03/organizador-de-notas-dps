@@ -47,7 +47,7 @@ const Menu = ({ navigation }) => {
     return (
         <View style={styles.main}>
             <View style={styles.container}>
-                <Text><Icon name="home-account" size={25} /> Bienvenido "{username}"</Text>
+                <Text style={styles.title}><Icon name="home-account" size={30} /> Bienvenido "{username}"</Text>
             </View>
             <TouchableOpacity style={styles.containerNotas} onPress={() => verNotas()}>
                 <Text><Icon name="note" size={25} /> Notas</Text>
@@ -85,17 +85,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         gap: 20,
     },
-    containerNotas: {
-        backgroundColor: '#68b6ef',
-        padding: 20,
-        margin: 20,
-        borderRadius: 10,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 20,
+    title: {
+        fontSize: 20,
+        fontWeight: 'bold',
     },
-    containerRecordatorios: {
+    containerNotas: {
         backgroundColor: '#77dd77',
         padding: 20,
         margin: 20,
@@ -105,8 +99,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         gap: 20,
     },
+    containerRecordatorios: {
+        backgroundColor: '#84b6f4',
+        padding: 20,
+        margin: 20,
+        borderRadius: 10,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 20,
+    },
     containerEtiquetas: {
-        backgroundColor: '#feff3a',
+        backgroundColor: '#fdfd96',
         padding: 20,
         margin: 20,
         borderRadius: 10,
@@ -116,7 +120,7 @@ const styles = StyleSheet.create({
         gap: 20,
     },
     containerPapelera: {
-        backgroundColor: '#ffa590',
+        backgroundColor: '#fdcae1',
         padding: 20,
         margin: 20,
         borderRadius: 10,
@@ -126,7 +130,7 @@ const styles = StyleSheet.create({
         gap: 20,
     },
     containerCerrarSesion: {
-        backgroundColor: '#ee5d3e',
+        backgroundColor: '#ff6961',
         padding: 20,
         margin: 20,
         borderRadius: 10,
