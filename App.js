@@ -21,24 +21,8 @@ export default function App() {
       if(idUsuario){
         if(idUsuario.length > 0 && idUsuario != ''){
           setSesionIniciada(true);
-
-          //Verificamos si hay conexion al servidor, en caso contrario bloqueamos todo
-          axios.get('https://api-rest-admin-notas-dps-747620528393.us-central1.run.app/Usuarios/conexion')
-          .then((response) => {
-            //
-          })
-          .catch((error) => {
-            if(error.response.data.descripcion){
-              Alert.alert('Error', error.response.data.descripcion);
-            }else{
-              Alert.alert('Error', 'No se pudo conectar con el servidor, revise su conexion a internet y si el problema persiste contacte con el administrador');
-            }
-            setSesionIniciada(false);
-          });
         }
       }
-      
-      
     }
 
     verificarSesion();
