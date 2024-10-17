@@ -4,7 +4,13 @@ import { getSesionNombreUsuario, getSesionIdUsuario, setSesionIdUsuario, setSesi
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {adminContext} from './../../screens/Dashboard';
 
+//Colores
 const backgrouncolor = '#fff1d7';
+const backgroundNotas = '#77dd77';
+const backgroundRecordatorios = '#84b6f4';
+const backgroundEtiquetas = '#d5e732';
+const backgroundPapelera = '#fdcae1';
+const backgroundCerrarSesion = '#ff6961';
 
 const Menu = ({ navigation }) => {
     //Variables
@@ -50,19 +56,19 @@ const Menu = ({ navigation }) => {
                 <Text style={styles.title}><Icon name="home-account" size={30} /> Bienvenido "{username}"</Text>
             </View>
             <TouchableOpacity style={styles.containerNotas} onPress={() => verNotas()}>
-                <Text><Icon name="note" size={25} /> Notas</Text>
+                <Text><Icon name="note" size={25} color={backgroundNotas} /> Notas</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.containerRecordatorios} onPress={() => verRecordatorios()}>
-                <Text><Icon name="calendar-blank" size={25} /> Recordatorios</Text>
+                <Text><Icon name="calendar-blank" size={25} color={backgroundRecordatorios} /> Recordatorios</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.containerEtiquetas} onPress={() => VerEtiquetas()}>
-                <Text><Icon name="tag" size={25} /> Etiquetas</Text>
+                <Text><Icon name="tag" size={25} color={backgroundEtiquetas} /> Etiquetas</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.containerPapelera} onPress={() => verPapeleraNotas()}>
-                <Text><Icon name="note-remove" size={25} /> Papelera de reciclaje</Text>
+                <Text><Icon name="note-remove" size={25} color={backgroundPapelera} /> Papelera de reciclaje</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.containerCerrarSesion} onPress={() => cerrarSesion()}>
-                <Text><Icon name="cancel" size={25} /> Cerrar sesión</Text>
+                <Text><Icon name="cancel" size={25} color={backgroundCerrarSesion} /> Cerrar sesión</Text>
             </TouchableOpacity>
         </View>
     )
@@ -90,7 +96,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     containerNotas: {
-        backgroundColor: '#77dd77',
+        backgroundColor: 'white',
         padding: 20,
         margin: 20,
         borderRadius: 10,
@@ -98,9 +104,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         gap: 20,
+        borderColor: backgroundNotas,
+        borderWidth: 4,
+    },
+    titleNotas:{
+        color: backgroundNotas,
+        fontWeight: 'bold',
     },
     containerRecordatorios: {
-        backgroundColor: '#84b6f4',
+        backgroundColor: 'white',
         padding: 20,
         margin: 20,
         borderRadius: 10,
@@ -108,9 +120,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         gap: 20,
+        borderColor: backgroundRecordatorios,
+        borderWidth: 4,
     },
     containerEtiquetas: {
-        backgroundColor: '#fdfd96',
+        backgroundColor: 'white',
         padding: 20,
         margin: 20,
         borderRadius: 10,
@@ -118,9 +132,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         gap: 20,
+        borderColor: backgroundEtiquetas,
+        borderWidth: 4
     },
     containerPapelera: {
-        backgroundColor: '#fdcae1',
+        backgroundColor: 'white',
         padding: 20,
         margin: 20,
         borderRadius: 10,
@@ -128,9 +144,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         gap: 20,
+        borderColor: backgroundPapelera,
+        borderWidth: 4
     },
     containerCerrarSesion: {
-        backgroundColor: '#ff6961',
+        backgroundColor: 'white',
         padding: 20,
         margin: 20,
         borderRadius: 10,
@@ -138,5 +156,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         gap: 20,
+        borderColor: backgroundCerrarSesion,
+        borderWidth: 4
     },
 })
