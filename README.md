@@ -21,6 +21,7 @@ Link de los diseños MockUps
 
 ## Otros enlaces
 - Arquitectura de software: [Enlace de Miro](https://miro.com/app/board/uXjVKkZXFnY=/)
+- Repositorio de API REST que consume la aplicación: [API REST ADMIN NOTAS DPS](https://github.com/DMancia03/API_REST_ADMIN_NOTAS_DPS)
 
 ## Autores del proyecto
 - Yensy Alejandra Cruz Barahona
