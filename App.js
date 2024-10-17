@@ -34,6 +34,8 @@ export default function App() {
             registrandose ? <Signup sesionIniciada={sesionIniciada} setSesionIniciada={setSesionIniciada} registrandose={registrandose} setRegistrandose={setRegistrandose} /> : 
               <Login sesionIniciada={sesionIniciada} setSesionIniciada={setSesionIniciada} registrandose={registrandose} setRegistrandose={setRegistrandose} />
       }
+
+      <StatusBar style="auto" backgroundColor='white' />
     </NavigationContainer>
   );
 }
