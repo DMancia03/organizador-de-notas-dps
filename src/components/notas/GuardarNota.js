@@ -10,8 +10,8 @@ import { getSesionIdUsuario } from "../security/ManejarSesiones";
 
 //Validaciones con YUP
 const esquemaValidacion = Yup.object({
-    nombre: Yup.string().required('El nombre es obligatorio'),
-    contenido: Yup.string().required('El contenido es obligatorio'),
+    nombre: Yup.string().required('El nombre es obligatorio').max(50, 'El nombre debe tener máximo 50 caracteres'),
+    contenido: Yup.string().required('El contenido es obligatorio').max(300, 'El contenido debe tener máximo 300 caracteres'),
     idEtiqueta: Yup.number().min(1, "Debe seleccionar una etiqueta").required('La etiqueta es obligatoria')
 });
 
