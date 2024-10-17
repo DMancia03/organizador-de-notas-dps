@@ -2,17 +2,26 @@ import React, { useState, useEffect} from "react";
 import { Text, TouchableOpacity, View, TextInput, Alert, StyleSheet } from "react-native";
 import axios from "axios";
 import { setSesionIdUsuario, getSesionIdUsuario, setSesionNombreUsuario, getSesionNombreUsuario } from "../security/ManejarSesiones";
+import { Formik } from "formik";
+import * as Yup from "yup";
 
+//Variables de colores
 const backgrouncolor = '#fff1d7';
 
-const Login = ({ sesionIniciada, setSesionIniciada, registrandose, setRegistrandose }) => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+//Validaciones formik
+const schemeValidation = Yup.object({
+    username: Yup.string().required('El nombre de usuario es requerido'),
+    password: Yup.string().required('La contraseña es requerida')
+});
 
-    const iniciarSesion = async () => {
+const Login = ({ sesionIniciada, setSesionIniciada, registrandose, setRegistrandose }) => {
+    //Variables default formik
+    const [initialValues, setInitialValues] = useState({username: '', password: ''});
+
+    const iniciarSesion = async (values) => {
         const datos = {
-            "Username": username,
-            "Pass": password
+            "Username": values.username,
+            "Pass": values.password
         };
 
         const stringJSON = JSON.stringify(datos);
@@ -37,38 +46,52 @@ const Login = ({ sesionIniciada, setSesionIniciada, registrandose, setRegistrand
     }
 
     return (
-        <View style={styles.main}>
-            <View style={styles.container}>
-                <View style={styles.header}>
-                    <Text style={styles.title}>INICIAR SESIÓN</Text>
-                </View>
-                <View>
-                    <Text style={styles.label}>Nombre de usuario:</Text>
-                    <TextInput
-                        style={styles.textbox}
-                        value={username}
-                        onChangeText={(value) => setUsername(value)}
-                    />
-                </View>
-                <View>
-                    <Text style={styles.label}>Contraseña:</Text>
-                    <TextInput 
-                        style={styles.textbox}
-                        value={password}
-                        secureTextEntry={true}
-                        onChangeText={(value) => setPassword(value)}
-                    />
-                </View>
-                <View style={styles.buttonGroup}>
-                    <TouchableOpacity style={styles.buttomLogin} onPress={() => iniciarSesion()}>
-                        <Text>Iniciar sesión</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttomRegistrarse} onPress={() => setRegistrandose(true)}>
-                        <Text>¿No tienes una cuenta?</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        </View>
+        <Formik
+            initialValues={initialValues}
+            validationSchema={schemeValidation}
+            onSubmit={(values) => {iniciarSesion(values)}}
+        >
+            {
+                ({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
+                    <View style={styles.main}>
+                        <View style={styles.container}>
+                            <View style={styles.header}>
+                                <Text style={styles.title}>INICIAR SESIÓN</Text>
+                            </View>
+                            <View>
+                                <Text style={styles.label}>Nombre de usuario:</Text>
+                                <TextInput
+                                    style={styles.textbox}
+                                    value={values.username}
+                                    onChangeText={handleChange('username')}
+                                    onBlur={handleBlur('username')}
+                                />
+                                {touched.username && errors.username && <Text style={styles.error}>{errors.username}</Text>}
+                            </View>
+                            <View>
+                                <Text style={styles.label}>Contraseña:</Text>
+                                <TextInput 
+                                    style={styles.textbox}
+                                    value={values.password}
+                                    secureTextEntry={true}
+                                    onChangeText={handleChange('password')}
+                                    onBlur={handleBlur('password')}
+                                />
+                                {touched.password && errors.password && <Text style={styles.error}>{errors.password}</Text>}
+                            </View>
+                            <View style={styles.buttonGroup}>
+                                <TouchableOpacity style={styles.buttomLogin} onPress={handleSubmit}>
+                                    <Text>Iniciar sesión</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.buttomRegistrarse} onPress={() => setRegistrandose(true)}>
+                                    <Text>¿No tienes una cuenta?</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                )
+            }
+        </Formik>
     )
 }
 
@@ -137,5 +160,9 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    error: {
+        color: '#ee5d3e',
+        fontSize: 15
     },
 })
