@@ -98,7 +98,7 @@ const GuardarNota = ({ navigation, route }) => {
                 setCargandoEtiquetas(false);
             })
             .catch((error) => {
-                Alert.alert('Error', 'No tiene etiquetas creadas');
+                Alert.alert('Error', 'No tiene etiquetas creadas, deben existir etiquetas para poder crear una nota');
                 console.error("Error al obtener etiquetas: ", error);
             });
         };

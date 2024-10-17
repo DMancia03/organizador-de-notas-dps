@@ -29,7 +29,7 @@ const Etiquetas = ({ navigation }) => {
                     })
                     .catch((error) => {
                         console.error("Error al obtener etiquetas: ", error);
-                        Alert.alert("Error", "No se pudieron cargar las etiquetas.");
+                        Alert.alert("Error", "No se encontraron las etiquetas.");
                     });
             };
 

@@ -43,7 +43,7 @@ const CrearRecordatorio = ({navigation}) => {
         })
         .catch((error) => {
           console.error("Error al obtener etiquetas: ", error);
-          Alert.alert("Error", "No se pudieron cargar las etiquetas.");
+          Alert.alert("Error", "No se encontraron etiquetas, deben existir etiquetas para crear un recordatorio");
         });
     };
 
