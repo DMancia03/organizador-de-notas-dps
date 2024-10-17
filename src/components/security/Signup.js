@@ -11,7 +11,7 @@ const backgrouncolor = '#fff1d7';
 //Validaciones formik
 const esquema = Yup.object({
     username: Yup.string().required('El nombre de usuario es requerido'),
-    password: Yup.string().required('La contraseña es requerida')
+    password: Yup.string().required('La contraseña es requerida').min(6, 'La contraseña debe tener al menos 6 caracteres').max(30, 'La contraseña debe tener máximo 30 caracteres')
 })
 
 const Signup = ({ sesionIniciada, setSesionIniciada, registrandose, setRegistrandose }) => {
@@ -40,7 +40,11 @@ const Signup = ({ sesionIniciada, setSesionIniciada, registrandose, setRegistran
             setSesionIniciada(true);
         })
         .catch((error) => {
-            Alert.alert('Error', 'No se pudo registrar tu usuario');
+            if(error.response.data.descripcion){
+                Alert.alert('Error', error.response.data.descripcion);
+            }else{
+                Alert.alert('Error', 'No se pudo registrar tu usuario');
+            }
             console.log(error);
         });
     }
