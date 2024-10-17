@@ -15,8 +15,10 @@ export default function App() {
   useEffect(() => {
     const verificarSesion = async () => {
       const idUsuario = await getSesionIdUsuario();
-      if(idUsuario.length > 0 && idUsuario != ''){
-        setSesionIniciada(true);
+      if(idUsuario){
+        if(idUsuario.length > 0 && idUsuario != ''){
+          setSesionIniciada(true);
+        }
       }
     }
 
